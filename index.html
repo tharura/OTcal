@@ -15,11 +15,14 @@
     --primary:      #4f8ef7;
     --primary-dim:  #1a2d52;
     --green:        #3ecf8e;
+    --green-dim:    #0f3626;
     --amber:        #f5a623;
     --amber-dim:    #3d2a07;
     --red:          #f76b6b;
     --purple:       #a78bfa;
     --purple-dim:   #2d1f5e;
+    --teal:         #2dd4bf;
+    --teal-dim:     #0d3330;
     --text:         #e8eaf0;
     --text-muted:   #6b7280;
     --text-dim:     #9ca3af;
@@ -36,9 +39,10 @@
     color: var(--text);
     min-height: 100vh;
     padding: 24px;
+    padding-bottom: 60px;
   }
 
-  /* Header */
+  /* ── Header ── */
   .header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
   .header-icon {
     width: 40px; height: 40px;
@@ -48,13 +52,14 @@
   .header h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
   .header p  { font-size: 13px; color: var(--text-muted); }
 
-  /* Controls */
+  /* ── Controls ── */
   .controls {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 20px 24px;
     display: flex; flex-wrap: wrap; align-items: flex-end; gap: 20px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
+
   .field { display: flex; flex-direction: column; gap: 6px; }
   .field label {
     font-size: 11px; font-weight: 600; letter-spacing: 0.8px;
@@ -64,13 +69,76 @@
     background: var(--surface2); border: 1px solid var(--border-light);
     border-radius: 6px; color: var(--text); font-family: var(--mono);
     font-size: 14px; padding: 9px 12px; outline: none;
-    transition: border-color 0.15s; min-width: 110px;
+    transition: border-color 0.15s;
   }
   .field input:focus, .field select:focus {
     border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
   }
   .field select option { background: var(--surface2); }
 
+  /* ── Advanced Settings Panel ── */
+  .settings-wrap { margin-bottom: 12px; }
+
+  .settings-toggle {
+    display: flex; align-items: center; gap: 8px;
+    background: none; border: 1px dashed var(--border-light);
+    border-radius: var(--radius); padding: 10px 16px;
+    color: var(--text-muted); font-family: var(--sans); font-size: 13px;
+    cursor: pointer; width: 100%; text-align: left;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .settings-toggle:hover { border-color: var(--teal); color: var(--teal); }
+  .settings-toggle.open  { border-color: var(--teal); color: var(--teal);
+                            border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+                            border-bottom-color: transparent; background: var(--teal-dim); }
+  .settings-toggle .arrow { font-size: 10px; transition: transform 0.2s; margin-left: auto; }
+  .settings-toggle.open .arrow { transform: rotate(180deg); }
+
+  .settings-panel {
+    background: var(--teal-dim); border: 1px solid var(--teal);
+    border-top: none; border-radius: 0 0 var(--radius) var(--radius);
+    padding: 0; max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+  .settings-panel.open { max-height: 600px; padding: 20px 24px 24px; }
+
+  .settings-intro {
+    font-size: 13px; color: var(--text-dim); line-height: 1.65;
+    margin-bottom: 20px; padding: 12px 14px;
+    background: rgba(45,212,191,0.05); border-left: 3px solid var(--teal);
+    border-radius: 0 4px 4px 0;
+  }
+  .settings-intro strong { color: var(--teal); }
+
+  .settings-fields { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end; }
+
+  .settings-field { display: flex; flex-direction: column; gap: 6px; }
+  .settings-field label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.7px;
+    text-transform: uppercase; color: var(--teal); font-family: var(--mono);
+  }
+  .settings-field input {
+    background: var(--surface2); border: 1px solid var(--border-light);
+    border-radius: 6px; color: var(--text); font-family: var(--mono);
+    font-size: 14px; padding: 9px 12px; outline: none; width: 110px;
+    transition: border-color 0.15s;
+  }
+  .settings-field input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(45,212,191,0.12); }
+  .settings-field input.invalid { border-color: var(--red) !important; }
+
+  .settings-field .hint {
+    font-size: 11.5px; color: var(--text-muted); line-height: 1.5; max-width: 200px;
+  }
+
+  .active-values {
+    margin-top: 16px; padding: 10px 14px;
+    background: rgba(45,212,191,0.07); border-radius: 6px;
+    font-family: var(--mono); font-size: 12px; color: var(--text-dim);
+    display: flex; gap: 24px; flex-wrap: wrap;
+  }
+  .active-values span { color: var(--teal); font-weight: 600; }
+
+  /* ── Buttons ── */
   .btn {
     padding: 10px 20px; border-radius: 6px; font-family: var(--sans);
     font-size: 14px; font-weight: 500; border: none; cursor: pointer;
@@ -81,8 +149,9 @@
   .btn-primary { background: var(--primary); color: #fff; }
   .btn-amber   { background: var(--amber);   color: #000; }
   .btn-green   { background: var(--green);   color: #000; }
+  .btn-teal    { background: var(--teal);    color: #000; font-weight: 600; }
 
-  /* Table */
+  /* ── Table ── */
   .table-wrapper {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden; margin-bottom: 16px;
@@ -128,24 +197,17 @@
   td input[type="text"]:focus  { border-color: var(--primary); background: var(--surface2); box-shadow: 0 0 0 3px rgba(79,142,247,0.12); }
   td input[type="text"].invalid { border-color: var(--red) !important; background: rgba(247,107,107,0.08); }
 
-  /* Duty-out cell: input stacked above +Next Day pill */
   .out-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }
 
-  /* +Next Day pill */
   .nd-btn {
     background: var(--surface2); border: 1px solid var(--border-light);
     border-radius: 20px; color: var(--text-muted); font-family: var(--mono);
     font-size: 10px; padding: 2px 8px; cursor: pointer; white-space: nowrap;
-    transition: all 0.15s; user-select: none; letter-spacing: 0.3px;
-    line-height: 1.6;
+    transition: all 0.15s; user-select: none; letter-spacing: 0.3px; line-height: 1.6;
   }
   .nd-btn:hover  { border-color: var(--purple); color: var(--purple); }
-  .nd-btn.active {
-    background: var(--purple-dim); border-color: var(--purple);
-    color: var(--purple); font-weight: 600;
-  }
+  .nd-btn.active { background: var(--purple-dim); border-color: var(--purple); color: var(--purple); font-weight: 600; }
 
-  /* Leave toggle */
   .toggle { position: relative; display: inline-block; width: 34px; height: 20px; }
   .toggle input { opacity: 0; width: 0; height: 0; }
   .slider {
@@ -160,8 +222,8 @@
   .toggle input:checked + .slider { background: var(--amber-dim); border: 1px solid var(--amber); }
   .toggle input:checked + .slider::before { transform: translateX(14px); background: var(--amber); }
 
-  /* Footer */
-  .footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+  /* ── Footer ── */
+  .footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
   .actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
   .totals-card {
@@ -177,7 +239,18 @@
   .tv-ot  { font-family: var(--mono); font-weight: 600; font-size: 20px; color: var(--green); }
   .tv-amt { font-family: var(--mono); font-weight: 600; font-size: 22px; color: var(--amber); }
 
-  /* Toast */
+  /* ── Credit ── */
+  .credit {
+    text-align: center; padding: 16px 0 4px;
+    font-size: 12px; color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    letter-spacing: 0.3px;
+  }
+  .credit a { color: var(--primary); text-decoration: none; }
+  .credit a:hover { text-decoration: underline; }
+
+  /* ── Toast ── */
   #toast {
     position: fixed; bottom: 28px; right: 28px;
     background: var(--surface2); border: 1px solid var(--border-light);
@@ -195,6 +268,7 @@
 </head>
 <body>
 
+<!-- ── Header ── -->
 <div class="header">
   <div class="header-icon">&#9201;</div>
   <div>
@@ -203,10 +277,11 @@
   </div>
 </div>
 
+<!-- ── Main Controls ── -->
 <div class="controls">
   <div class="field">
     <label>Month</label>
-    <select id="monthSel"></select>
+    <select id="monthSel" style="width:130px"></select>
   </div>
   <div class="field">
     <label>Year</label>
@@ -219,6 +294,71 @@
   <button class="btn btn-primary" onclick="generateSheet()">Generate Sheet</button>
 </div>
 
+<!-- ── Advanced Settings ── -->
+<div class="settings-wrap">
+  <button class="settings-toggle" id="settingsToggle" onclick="toggleSettings()">
+    &#9881; &nbsp;Duty Time Threshold Settings &nbsp;
+    <small style="font-weight:400;opacity:0.7">(optional &mdash; leave blank to use defaults)</small>
+    <span class="arrow">&#9660;</span>
+  </button>
+
+  <div class="settings-panel" id="settingsPanel">
+
+    <div class="settings-intro">
+      <strong>What are these settings?</strong><br>
+      The OT calculation depends on two key threshold times that define how your organisation counts duty hours.
+      These values are <strong>optional</strong> &mdash; if you leave them blank, the system uses the built-in defaults
+      (<strong>07:30</strong> and <strong>08:30</strong>). Only change these if your workplace has different official duty start times.
+      After entering new values, press <strong>Apply</strong> to activate them.
+      <br><br>
+      &bull; <strong>Morning OT Limit</strong> &mdash; If an employee arrives <em>before</em> this time, they are considered to be on
+      <em>morning overtime</em>. The system will deduct <strong>8 hours</strong> from their total duty duration to find the OT hours.
+      <em>Default: 07:30</em><br><br>
+      &bull; <strong>Normal Duty Start</strong> &mdash; This is the official start time of a normal working day. Employees who arrive
+      between the Morning OT Limit and this time will have their duty counted <em>from this time</em>, not from when they actually arrived.
+      The system deducts <strong>7 h 45 m</strong> and requires a minimum of <strong>1 hour</strong> OT to qualify.
+      <em>Default: 08:30</em>
+    </div>
+
+    <div class="settings-fields">
+
+      <div class="settings-field">
+        <label>Morning OT Limit</label>
+        <input type="text" id="setMorningLimit" placeholder="07:30" />
+        <div class="hint">
+          Arrive <em>before</em> this time &rarr; morning OT rule applies (deduct 8 h).<br>
+          Format: HH:MM or HH.MM
+        </div>
+      </div>
+
+      <div class="settings-field">
+        <label>Normal Duty Start</label>
+        <input type="text" id="setNormalDuty" placeholder="08:30" />
+        <div class="hint">
+          Official start of a normal day. Arrivals between the two thresholds are forced to start from this time.<br>
+          Must be later than Morning OT Limit.
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;align-self:flex-end">
+        <button class="btn btn-teal" onclick="applySettings()">&#10003; &nbsp;Apply</button>
+        <button class="btn" style="background:var(--surface2);color:var(--text-muted);font-size:13px" onclick="resetSettings()">&#8635; &nbsp;Reset to Defaults</button>
+      </div>
+
+    </div>
+
+    <!-- Active values display -->
+    <div class="active-values" id="activeValues">
+      Active &mdash;
+      Morning OT Limit: <span id="dispMorning">07:30</span>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      Normal Duty Start: <span id="dispNormal">08:30</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Table ── -->
 <div class="table-wrapper">
   <div class="table-scroll">
     <table>
@@ -226,8 +366,8 @@
         <tr>
           <th>Day</th>
           <th>Date</th>
-          <th>Duty In <span style="color:var(--text-muted);font-weight:400">(24h)</span></th>
-          <th>Duty Out <span style="color:var(--text-muted);font-weight:400">(24h &middot; +Next Day if overnight)</span></th>
+          <th>Duty In &nbsp;<span style="color:var(--text-muted);font-weight:400;font-size:9.5px">(24h)</span></th>
+          <th>Duty Out &nbsp;<span style="color:var(--text-muted);font-weight:400;font-size:9.5px">(24h &middot; +Next Day if overnight)</span></th>
           <th>OT Hrs</th>
           <th>Amount</th>
           <th>Leave</th>
@@ -245,6 +385,7 @@
   </div>
 </div>
 
+<!-- ── Footer ── -->
 <div class="footer">
   <div class="actions">
     <button class="btn btn-amber" onclick="calculateAll()">Calculate Totals</button>
@@ -262,17 +403,27 @@
   </div>
 </div>
 
+<!-- ── Credit ── -->
+<div class="credit">
+  OT Calculator &mdash; Built for accurate overtime tracking &nbsp;&middot;&nbsp;
+  All calculations run locally in your browser &nbsp;&middot;&nbsp;
+  No data is sent or stored externally. &mdash; Developed By Tharusha Rusith Rangana
+</div>
+
 <div id="toast"></div>
 
 <script>
 // ============================================================
-//  CONFIG  (mirrors ot_logic.py)
+//  LIVE CONFIG — can be changed via Settings panel
+//  Defaults: Morning OT Limit = 07:30 | Normal Duty Start = 08:30
 // ============================================================
-const MORNING_OT_LIMIT   = { h: 7, m: 30 };   // 07:30
-const NORMAL_DUTY_TIME   = { h: 8, m: 30 };   // 08:30
-const MORNING_REDUCE_MIN = 8 * 60;             // 480 min  (8 h)
-const NORMAL_REDUCE_MIN  = 7 * 60 + 45;        // 465 min  (7 h 45 m)
-const MIN_OT_MIN         = 60;                 // weekday minimum: 1 h
+let MORNING_OT_LIMIT  = { h: 7,  m: 30 };
+let NORMAL_DUTY_TIME  = { h: 8,  m: 30 };
+
+// Fixed values — not user-configurable
+const MORNING_REDUCE_MIN = 8 * 60;       // 480 min  (8 h)
+const NORMAL_REDUCE_MIN  = 7 * 60 + 45; // 465 min  (7 h 45 m)
+const MIN_OT_MIN         = 60;           // 1 h minimum OT on weekdays
 
 // ============================================================
 //  HELPERS
@@ -283,17 +434,19 @@ const roundDown15 = m => Math.floor(m / 15) * 15;
 
 function parseTime(s) {
   if (!s || !s.trim()) return null;
-  // Accept colon or dot separator, e.g. "8:30" or "8.30"
   const clean = s.trim().replace('.', ':');
   const parts = clean.split(':');
   if (parts.length !== 2) return null;
   let h = parseInt(parts[0], 10);
   const m = parseInt(parts[1], 10);
   if (isNaN(h) || isNaN(m) || m < 0 || m > 59) return null;
-  // Allow 24:00 as a valid entry meaning midnight end-of-day (same as 00:00)
-  if (h === 24 && m === 0) return { h: 0, m: 0, isMidnightEnd: true };
+  if (h === 24 && m === 0) return { h: 0, m: 0 }; // accept 24:00 as midnight
   if (h < 0 || h > 23) return null;
   return { h, m };
+}
+
+function fmtTime(t) {
+  return String(t.h).padStart(2,'0') + ':' + String(t.m).padStart(2,'0');
 }
 
 function formatOT(minutes) {
@@ -309,21 +462,78 @@ function formatAmt(amt) {
 }
 
 // ============================================================
+//  SETTINGS PANEL
+// ============================================================
+function toggleSettings() {
+  const btn   = document.getElementById('settingsToggle');
+  const panel = document.getElementById('settingsPanel');
+  btn.classList.toggle('open');
+  panel.classList.toggle('open');
+}
+
+function applySettings() {
+  const mInp = document.getElementById('setMorningLimit');
+  const nInp = document.getElementById('setNormalDuty');
+  mInp.classList.remove('invalid');
+  nInp.classList.remove('invalid');
+
+  const mVal = mInp.value.trim();
+  const nVal = nInp.value.trim();
+
+  // If both blank → reset to defaults silently
+  if (!mVal && !nVal) { resetSettings(); return; }
+
+  // Parse whichever was entered; keep current value if left blank
+  let newMorning = mVal ? parseTime(mVal) : MORNING_OT_LIMIT;
+  let newNormal  = nVal ? parseTime(nVal) : NORMAL_DUTY_TIME;
+
+  let hasError = false;
+  if (mVal && !newMorning) { mInp.classList.add('invalid'); hasError = true; }
+  if (nVal && !newNormal)  { nInp.classList.add('invalid'); hasError = true; }
+  if (hasError) { showToast('\u26a0 Invalid time format \u2014 use HH:MM or HH.MM'); return; }
+
+  // Normal duty must be after morning limit
+  if (toMins(newNormal) <= toMins(newMorning)) {
+    nInp.classList.add('invalid');
+    showToast('\u26a0 Normal Duty Start must be later than Morning OT Limit');
+    return;
+  }
+
+  MORNING_OT_LIMIT = newMorning;
+  NORMAL_DUTY_TIME = newNormal;
+
+  document.getElementById('dispMorning').textContent = fmtTime(MORNING_OT_LIMIT);
+  document.getElementById('dispNormal').textContent  = fmtTime(NORMAL_DUTY_TIME);
+
+  showToast('\u2713 Settings applied \u2014 ' + fmtTime(MORNING_OT_LIMIT) + ' / ' + fmtTime(NORMAL_DUTY_TIME));
+}
+
+function resetSettings() {
+  MORNING_OT_LIMIT = { h: 7, m: 30 };
+  NORMAL_DUTY_TIME = { h: 8, m: 30 };
+  document.getElementById('setMorningLimit').value = '';
+  document.getElementById('setNormalDuty').value   = '';
+  document.getElementById('setMorningLimit').classList.remove('invalid');
+  document.getElementById('setNormalDuty').classList.remove('invalid');
+  document.getElementById('dispMorning').textContent = '07:30';
+  document.getElementById('dispNormal').textContent  = '08:30';
+  showToast('\u21ba Reset to defaults \u2014 07:30 / 08:30');
+}
+
+// ============================================================
 //  OT CALCULATION
 //
-//  OVERNIGHT RULE (when nextDay = true, i.e. out < in by clock):
-//    Add 24 h to outMins. Full duration = OT. No deduction.
-//    Example: In 03:00, Out 03:15 next day
-//             → outMins += 1440 → total = 24h15m → OT = 24¼
+//  OVERNIGHT WITH +NEXT DAY:
+//    dutyIn before MORNING_OT_LIMIT → special duty, full duration = OT
+//    dutyIn in normal range          → shift crossed midnight, apply deduction rules
 //
-//  SAME-DAY WEEKDAY RULES (from ot_logic.py):
-//    in < 07:30           → deduct 8 h (480 min)
-//    07:30 <= in <= 08:30 → force start 08:30, deduct 7h45m, min 1h OT
-//    in > 08:30           → deduct 7h45m, min 1h OT
+//  NATURAL OVERNIGHT (out < in, no button):
+//    Full duration = OT, no deduction
 //
-//  OVERNIGHT is detected TWO ways:
-//    1. out clock time <= in clock time (e.g. 22:00 → 01:00) — automatic
-//    2. User clicks "+Next Day" pill — for cases like 03:00 → 03:15 next day
+//  SAME-DAY WEEKDAY:
+//    in < MORNING_OT_LIMIT  → deduct 8 h
+//    MORNING ≤ in ≤ NORMAL  → force start from NORMAL_DUTY_TIME, deduct 7h45m, min 1h OT
+//    in > NORMAL_DUTY_TIME  → deduct 7h45m, min 1h OT
 // ============================================================
 function calculateOT(dutyIn, dutyOut, dayType, nextDay) {
   if (!dutyIn || !dutyOut) return 0;
@@ -331,22 +541,18 @@ function calculateOT(dutyIn, dutyOut, dayType, nextDay) {
   let inMins  = toMins(dutyIn);
   let outMins = toMins(dutyOut);
 
-  // ── OVERNIGHT WITH +NEXT DAY CLICKED ──────────────────────────
-  // Two sub-cases:
-  //   A) dutyIn before 07:30 (special/early duty, e.g. 03:00 in)
-  //      → Full duration = OT, no deduction (e.g. 03:00→03:15 next day = 24¼)
-  //   B) dutyIn in normal range (07:30+)
-  //      → Shift crossed midnight; apply normal weekday deduction rules
+  // ── +NEXT DAY clicked ────────────────────────────────────
   if (nextDay) {
-    if (outMins === 0) outMins = 1440;  // 00:00 / 24:00 = midnight end boundary
-    else outMins += 1440;               // any other next-day time
+    if (outMins === 0) outMins = 1440;  // 00:00 / 24:00 = midnight boundary
+    else outMins += 1440;
+
     const total = outMins - inMins;
 
     if (inMins < toMins(MORNING_OT_LIMIT)) {
-      // Special early duty: full duration = OT
+      // Special early duty: full duration = OT, no deduction
       return roundDown15(total);
     }
-    // Normal shift past midnight: apply standard deduction rules
+    // Normal shift that crossed midnight: apply standard deduction rules
     if (dayType === 'weekend') return roundDown15(total);
     if (inMins <= toMins(NORMAL_DUTY_TIME)) {
       const worked = roundDown15(outMins - toMins(NORMAL_DUTY_TIME));
@@ -358,24 +564,27 @@ function calculateOT(dutyIn, dutyOut, dayType, nextDay) {
     return ot < MIN_OT_MIN ? 0 : ot;
   }
 
-  // ── NATURAL OVERNIGHT (out < in, no button clicked) ───────────
-  // e.g. 22:00 → 01:00. Full duration = OT, no deduction.
+  // ── NATURAL OVERNIGHT (out < in) ────────────────────────
   if (outMins < inMins) {
     outMins += 1440;
-    return roundDown15(outMins - inMins);
+    return roundDown15(outMins - inMins); // full duration = OT
   }
 
-  // ── SAME DAY ──────────────────────────────────────────────────
+  // ── SAME DAY ─────────────────────────────────────────────
   const totalRaw = outMins - inMins;
+
   if (dayType === 'weekend') return roundDown15(totalRaw);
+
   if (cmp(dutyIn, MORNING_OT_LIMIT) < 0)
     return Math.max(0, roundDown15(totalRaw) - MORNING_REDUCE_MIN);
+
   if (cmp(dutyIn, MORNING_OT_LIMIT) >= 0 && cmp(dutyIn, NORMAL_DUTY_TIME) <= 0) {
     const worked = roundDown15(outMins - toMins(NORMAL_DUTY_TIME));
     if (worked <= 0) return 0;
     const ot = worked - NORMAL_REDUCE_MIN;
     return ot < MIN_OT_MIN ? 0 : ot;
   }
+
   const ot = roundDown15(totalRaw) - NORMAL_REDUCE_MIN;
   return ot < MIN_OT_MIN ? 0 : ot;
 }
@@ -394,12 +603,11 @@ function getMonthDates(year, month) {
     return { date: dt, dayName: DAYS[dt.getDay()] };
   });
 }
-
 const isWeekend = name => name === 'Saturday' || name === 'Sunday';
 const fmtDate   = dt =>
   dt.getFullYear() + '-' +
-  String(dt.getMonth() + 1).padStart(2, '0') + '-' +
-  String(dt.getDate()).padStart(2, '0');
+  String(dt.getMonth() + 1).padStart(2,'0') + '-' +
+  String(dt.getDate()).padStart(2,'0');
 
 // ============================================================
 //  INIT
@@ -409,8 +617,7 @@ const fmtDate   = dt =>
   const sel = document.getElementById('monthSel');
   MONTHS.forEach((name, i) => {
     const opt = document.createElement('option');
-    opt.value = i + 1;
-    opt.textContent = name;
+    opt.value = i + 1; opt.textContent = name;
     if (i + 1 === now.getMonth() + 1) opt.selected = true;
     sel.appendChild(opt);
   });
@@ -420,7 +627,6 @@ const fmtDate   = dt =>
 // ============================================================
 //  ROW STORE
 // ============================================================
-// Each entry: { inInp, outInp, ndActive, tdOT, tdAmt, leaveChk, dayName, dateStr }
 let rows = [];
 
 // ============================================================
@@ -461,7 +667,7 @@ function generateSheet() {
     tdIn.appendChild(inInp);
     tr.appendChild(tdIn);
 
-    // Duty Out + "+Next Day" pill
+    // Duty Out + +Next Day pill
     const tdOut   = document.createElement('td');
     const outCell = document.createElement('div');
     outCell.className = 'out-cell';
@@ -475,8 +681,7 @@ function generateSheet() {
     ndBtn.textContent = '+Next Day';
     ndBtn.type = 'button';
     ndBtn.title = 'Click if Duty Out is on the next calendar day (overnight shift)';
-
-    ndBtn.addEventListener('click', () => {
+    ndBtn.addEventListener('click', function() {
       rows[idx].ndActive = !rows[idx].ndActive;
       ndBtn.classList.toggle('active', rows[idx].ndActive);
       tr.classList.toggle('overnight-row', rows[idx].ndActive);
@@ -489,27 +694,24 @@ function generateSheet() {
 
     // OT
     const tdOT = document.createElement('td');
-    tdOT.className = 'td-ot';
-    tdOT.textContent = '\u2014';
+    tdOT.className = 'td-ot'; tdOT.textContent = '\u2014';
     tr.appendChild(tdOT);
 
     // Amount
     const tdAmt = document.createElement('td');
-    tdAmt.className = 'td-amt';
-    tdAmt.textContent = '\u2014';
+    tdAmt.className = 'td-amt'; tdAmt.textContent = '\u2014';
     tr.appendChild(tdAmt);
 
     // Leave toggle
     const tdLeave = document.createElement('td');
-    const lbl  = document.createElement('label');
+    const lbl = document.createElement('label');
     lbl.className = 'toggle';
-    const chk  = document.createElement('input');
+    const chk = document.createElement('input');
     chk.type = 'checkbox';
-    chk.addEventListener('change', () => tr.classList.toggle('on-leave', chk.checked));
+    chk.addEventListener('change', function() { tr.classList.toggle('on-leave', chk.checked); });
     const sldr = document.createElement('span');
     sldr.className = 'slider';
-    lbl.appendChild(chk);
-    lbl.appendChild(sldr);
+    lbl.appendChild(chk); lbl.appendChild(sldr);
     tdLeave.appendChild(lbl);
     tr.appendChild(tdLeave);
 
@@ -517,15 +719,11 @@ function generateSheet() {
     bindNav(inInp);
     bindNav(outInp);
 
-    rows.push({
-      inInp, outInp, ndActive: false,
-      tdOT, tdAmt, leaveChk: chk,
-      dayName: d.dayName, dateStr: fmtDate(d.date)
-    });
+    rows.push({ inInp, outInp, ndActive: false, tdOT, tdAmt, leaveChk: chk, dayName: d.dayName, dateStr: fmtDate(d.date) });
   });
 
   if (rows.length) rows[0].inInp.focus();
-  showToast('Generated ' + rows.length + ' days \u2014 ' + MONTHS[month - 1] + ' ' + year);
+  showToast('\u2713 Generated ' + rows.length + ' days \u2014 ' + MONTHS[month - 1] + ' ' + year);
 }
 
 // ============================================================
@@ -548,12 +746,10 @@ function bindNav(inp) {
     }
   });
 }
-
 function moveFocus(row, col) {
   if (row < 0 || row >= rows.length) return;
   const target = col === 0 ? rows[row].inInp : rows[row].outInp;
-  target.focus();
-  target.select();
+  target.focus(); target.select();
 }
 
 // ============================================================
@@ -561,7 +757,6 @@ function moveFocus(row, col) {
 // ============================================================
 function calculateAll() {
   if (!rows.length) { showToast('Generate a sheet first'); return; }
-
   const rate = parseFloat(document.getElementById('rateInp').value);
   if (isNaN(rate) || rate <= 0) { showToast('Invalid OT rate'); return; }
 
@@ -570,11 +765,9 @@ function calculateAll() {
   rows.forEach(function(row) {
     const inVal  = row.inInp.value.trim();
     const outVal = row.outInp.value.trim();
-
     row.inInp.classList.remove('invalid');
     row.outInp.classList.remove('invalid');
 
-    // Empty row — skip
     if (!inVal && !outVal) {
       row.tdOT.textContent  = '\u2014'; row.tdOT.className  = 'td-ot';
       row.tdAmt.textContent = '\u2014'; row.tdAmt.className = 'td-amt';
@@ -609,8 +802,8 @@ function calculateAll() {
   document.getElementById('totalOT').textContent  = formatOT(totalMin) || '0';
   document.getElementById('totalAmt').textContent = totalAmt ? formatAmt(totalAmt) : '0.00';
 
-  if (anyError) showToast('Some times are invalid \u2014 check red fields');
-  else          showToast('Calculation complete');
+  if (anyError) showToast('\u26a0 Some times are invalid \u2014 check red fields');
+  else          showToast('\u2713 Calculation complete \u2014 thresholds: ' + fmtTime(MORNING_OT_LIMIT) + ' / ' + fmtTime(NORMAL_DUTY_TIME));
 }
 
 // ============================================================
@@ -624,18 +817,19 @@ function exportCSV() {
   const rate  = document.getElementById('rateInp').value;
   const mName = MONTHS[parseInt(monthSel.value) - 1];
 
-  let csv = 'OT Calculator Export\nMonth: ' + mName + ' ' + year + '\nOT Rate per hour: ' + rate + '\n\n';
+  let csv = 'OT Calculator Export\n';
+  csv += 'Month: ' + mName + ' ' + year + '\n';
+  csv += 'OT Rate per hour: ' + rate + '\n';
+  csv += 'Morning OT Limit: ' + fmtTime(MORNING_OT_LIMIT) + '\n';
+  csv += 'Normal Duty Start: ' + fmtTime(NORMAL_DUTY_TIME) + '\n\n';
   csv += 'Day,Date,Duty In,Duty Out,Next Day,OT Hours,Amount,Leave\n';
 
   rows.forEach(function(r) {
     const ot  = r.tdOT.textContent  === '\u2014' ? '' : r.tdOT.textContent;
     const amt = r.tdAmt.textContent === '\u2014' ? '' : r.tdAmt.textContent;
-    csv += [
-      r.dayName, r.dateStr, r.inInp.value, r.outInp.value,
-      r.ndActive ? 'Yes' : '',
-      ot, amt,
-      r.leaveChk.checked ? 'Yes' : ''
-    ].join(',') + '\n';
+    csv += [r.dayName, r.dateStr, r.inInp.value, r.outInp.value,
+            r.ndActive ? 'Yes' : '', ot, amt,
+            r.leaveChk.checked ? 'Yes' : ''].join(',') + '\n';
   });
 
   const tot  = document.getElementById('totalOT').textContent;
@@ -645,10 +839,10 @@ function exportCSV() {
   const blob = new Blob([csv], { type: 'text/csv' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'OT_' + year + '_' + String(monthSel.value).padStart(2, '0') + '.csv';
+  a.download = 'OT_' + year + '_' + String(monthSel.value).padStart(2,'0') + '.csv';
   a.click();
   URL.revokeObjectURL(a.href);
-  showToast('CSV downloaded');
+  showToast('\u2713 CSV downloaded');
 }
 
 // ============================================================
@@ -660,7 +854,7 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(function() { t.classList.remove('show'); }, 3200);
+  toastTimer = setTimeout(function() { t.classList.remove('show'); }, 3500);
 }
 </script>
 </body>
